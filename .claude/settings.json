@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/Vegar Eeg/workspace/nobs-fs/nobs-fs-autopilot/docs/**)",
+      "Bash(git check-ignore *)"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\Vegar Eeg\\workspace\\nobs-fs\\nobs-fs-autopilot\\docs"
+    ]
+  }
+}

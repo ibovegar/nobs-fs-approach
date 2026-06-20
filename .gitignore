@@ -1,0 +1,42 @@
+# --- Arduino / ESP32 firmware build artifacts ---
+build/
+*.bin
+*.elf
+*.hex
+*.map
+*.d
+*.o
+*.a
+# PlatformIO
+.pio/
+.pioenvs/
+.piolibdeps/
+
+# --- CAD / 3D model backups (keep source .step / .FCStd) ---
+*.FCStd1
+*.FCBak
+*.stl.bak
+*~
+
+# --- Editor / IDE ---
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# --- Claude Code (keep shared settings.json, ignore local overrides) ---
+.claude/settings.local.json
+
+# --- OS cruft ---
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+# macOS
+.DS_Store
+.AppleDouble
+# Linux
+.directory
+.Trash-*
