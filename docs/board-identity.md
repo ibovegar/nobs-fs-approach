@@ -70,7 +70,8 @@ That restart is normal and only takes a second. The reason it's needed: a board 
 its identity to the PC at the moment it powers on, so it has to reboot for a new name to take effect.
 
 > 💡 To check what a board is currently called, the app can ask it with `GET_ID`, and the board
-> replies with its stored name and ID.
+> replies with its stored name and ID. The board also announces its name and ID on its own, the
+> moment the app connects — so the app doesn't even need to ask.
 
 ## If Windows still shows the old name
 
