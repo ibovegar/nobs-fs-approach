@@ -2,10 +2,50 @@
   "permissions": {
     "allow": [
       "Read(//c/Users/Vegar Eeg/workspace/nobs-fs/nobs-fs-autopilot/docs/**)",
-      "Bash(git check-ignore *)"
+      "Bash(git check-ignore *)",
+      "Bash(find \"/c/Users/Vegar Eeg/workspace/nobs-fs/nobs-fs-panel\" -iname \"*.ino\" -o -iname \"*wiring*\" 2>/dev/null | grep -v node_modules)",
+      "Read(//c/Users/Vegar Eeg/workspace/nobs-fs/nobs-fs-panel/**)",
+      "Bash(ls -la \"c:/Users/Vegar Eeg/workspace/nobs-fs/\" 2>&1 | head -30)",
+      "Read(//c/Users/Vegar Eeg/workspace/nobs-fs/**)",
+      "Bash(grep -v \"^//\\\\|printIdentity\\\\|applyConfig\")",
+      "Bash(find / -iname \"USBCDC.h\" 2>/dev/null | grep -v \"/proc/\" | head -20)",
+      "Read(//c//**)",
+      "WebSearch",
+      "Read(//c/Users/Vegar Eeg/AppData/Local/Arduino15/packages/arduino/hardware/esp32/2.0.18-arduino.5/variants/arduino_nano_nora/**)",
+      "Read(//c/Users/Vegar Eeg/workspace/nobs-fs/nobs-fs-app/**)",
+      "Read(//c/Users/Vegar Eeg/workspace/nobs-fs/nobs-fs-app/src/**)",
+      "Bash(grep -rn \"mounted\\\\|connected\\\\|ARDUINO_USB_EVENTS\\\\|USB_EVENT\" \"/c/Users/Vegar Eeg/AppData/Local/Arduino15/packages/arduino/hardware/esp32/2.0.18-arduino.5/cores/esp32/esp32-hal-usb.h\" \"/c/Users/Vegar Eeg/AppData/Local/Arduino15/packages/arduino/hardware/esp32/2.0.18-arduino.5/libraries/USB/src/USB.h\" 2>/dev/null)",
+      "Read(//c/Users/Vegar Eeg/AppData/Local/Arduino15/packages/arduino/hardware/esp32/2.0.18-arduino.5/cores/esp32/**)",
+      "Bash(find \"/c/Users/Vegar Eeg/AppData/Local/Arduino15/packages/arduino/hardware/esp32/2.0.18-arduino.5\" -iname \"USB.h\" -o -iname \"esp32-hal-usb.h\" 2>/dev/null)",
+      "Read(//c/Users/Vegar Eeg/AppData/Local/Arduino15/packages/arduino/hardware/esp32/2.0.18-arduino.5/**)",
+      "Bash(cd \"/c/Users/Vegar Eeg/workspace/nobs-fs/nobs-fs-panel/models\")",
+      "Bash(ls *.step)",
+      "WebFetch(domain:no.mouser.com)",
+      "WebFetch(domain:www.nkkswitches.eu)",
+      "Read(//c/Users/Vegar Eeg/workspace/nobs-fs/nobs-fs-panel/firmware/arduino_eps32_nano/**)",
+      "Read(//c/Users/Vegar Eeg/workspace/nobs-fs/nobs-fs-autopilot/firmware/arduino_eps32_nano/**)",
+      "Read(//c/Users/Vegar Eeg/workspace/nobs-fs/nobs-fs-autopilot/firmware/arduino_micro/**)",
+      "Read(//c/Users/Vegar Eeg/workspace/nobs-fs/nobs-fs-panel/docs/**)",
+      "Read(//c/Users/Vegar Eeg/workspace/nobs-fs/nobs-fs-panel/firmware/**)",
+      "Bash(echo \"=== panel LEFT firmware pin block ===\"; grep -n \"swPin\\\\[16\\\\]\" -A4 \"/c/Users/Vegar Eeg/workspace/nobs-fs/nobs-fs-panel/firmware/arduino_eps32_nano_left/arduino_eps32_nano_left.ino\")",
+      "Read(//c/Users/Vegar Eeg/workspace/nobs-fs/nobs-fs-panel/firmware/arduino_eps32_nano_left/**)",
+      "Read(//c/Users/Vegar Eeg/workspace/nobs-fs/nobs-fs-app/src/panel/**)",
+      "Bash(cd \"/c/Users/Vegar Eeg/workspace/nobs-fs/nobs-fs-app\" && grep -rn \"instancesOf\\\\|instanceConfig\\\\|DEVICES\\\\b\\\\|MAX_INSTANCES\\\\|\\\\.pid\\\\b\" src --include=*.ts --include=*.tsx | grep -v \"panel.ts\" | grep -v \".test.\" | head -50)",
+      "Read(//c/Users/Vegar Eeg/workspace/nobs-fs/nobs-fs-app/src/hooks/**)",
+      "Read(//c/Users/Vegar Eeg/workspace/nobs-fs/nobs-fs-app/src/pages/Devices/**)",
+      "Bash(cd \"/c/Users/Vegar Eeg/workspace/nobs-fs/nobs-fs-app\" && echo \"=== Panel page\\(s\\) ===\"; find src/pages -iname \"*panel*\"; echo \"=== usePanelEventLog full ===\"; cat src/hooks/usePanelEventLog.ts)",
+      "Bash(cd \"/c/Users/Vegar Eeg/workspace/nobs-fs/nobs-fs-app\" && echo \"=== where usePanelEventLog used ===\"; grep -rn \"usePanelEventLog\\\\|useApproachEventLog\\\\|useEventLog\" src --include=*.tsx --include=*.ts | grep -v \"hooks/use\"; echo; echo \"=== App.tsx device watching ===\"; grep -n \"instancesOf\\\\|useInstanceCounts\\\\|connected\\\\|useDevice\\\\|watch\\\\|DEVICES\" src/App.tsx)",
+      "Bash(cd \"/c/Users/Vegar Eeg/workspace/nobs-fs/nobs-fs-app\" && echo \"=== DeviceCard ===\"; cat src/components/DeviceCard/DeviceCard.tsx; echo; echo \"=== useDevice ===\"; cat src/hooks/useDevice.ts 2>/dev/null | head -80)",
+      "Bash(find \"/c/Users/Vegar Eeg/workspace/nobs-fs\" -maxdepth 3 -iname \"*bill*material*\" -o -iname \"*BOM*\" 2>/dev/null | head -50)",
+      "Bash(grep -n -i \"cost\\\\|price\\\\|estimat\" \"/c/Users/Vegar Eeg/workspace/nobs-fs/nobs-fs-panel/docs/bill-of-materials.md\")",
+      "Bash(awk '/## Project Costs/,0' \"/c/Users/Vegar Eeg/workspace/nobs-fs/nobs-fs-autopilot/docs/bill-of-materials.md\")"
     ],
     "additionalDirectories": [
-      "c:\\Users\\Vegar Eeg\\workspace\\nobs-fs\\nobs-fs-autopilot\\docs"
+      "c:\\Users\\Vegar Eeg\\workspace\\nobs-fs\\nobs-fs-autopilot\\docs",
+      "c:\\Users\\Vegar Eeg\\workspace\\nobs-fs\\nobs-fs-panel\\firmware\\arduino_eps32_nano",
+      "c:\\Users\\Vegar Eeg\\workspace\\nobs-fs\\nobs-fs-panel\\firmware\\arduino_eps32_nano_left",
+      "c:\\Users\\Vegar Eeg\\workspace\\nobs-fs\\nobs-fs-autopilot\\firmware\\arduino_eps32_nano",
+      "c:\\Users\\Vegar Eeg\\workspace\\nobs-fs\\nobs-fs-panel\\docs"
     ]
   }
 }
