@@ -8,14 +8,33 @@ drivers to install.
 All three levers are 3-position (ON-OFF-ON); each lever's two outer positions are reported as two
 buttons, for **6 buttons** total.
 
+![Nobs Approach](images/nobs_approach.png)
+
 ## Docs
 
-- **[Which wire goes where](docs/arduino-esp-32-wiring.md)**: the button + pin map.
+- **[Which wire goes where](docs/arduino-esp-32-wiring.md)**: the button + pin map. For a visual
+  reference alongside it, see the [wiring diagram](docs/wiring-diagram.pdf).
 - **[Loading the firmware](firmware/arduino_eps32_nano/README.md)**: first-time flashing and
   re-flashing, step by step.
 - **[Setting the device ID & name](docs/board-identity.md)**: how the board names itself, how to
   rename it, and how to run several approach panels at once (each gets its own ID + name).
 - **[Bill of materials](docs/bill-of-materials.md)**: parts list.
+
+## Nobs FS Companion App
+
+The [**Nobs FS app**](https://github.com/ibovegar/nobs-fs-app) is the companion application for
+communicating with and configuring this panel. It automatically detects the Nobs Approach by its
+USB identity (VID `303A` / PID `80F8`), so the right device is selected even when other game
+controllers are connected.
+
+Use it to:
+* **Verify wiring & test inputs:** watch every lever position register live as you move it, handy
+  for confirming the build before binding anything in the sim.
+* **Track multiple approach panels:** the Devices page lets you add extra instances of the panel,
+  each with its own ID and name (see [Setting the device ID & name](#setting-the-device-id--name-in-brief)
+  below), so the app and the sim can tell them apart.
+
+See the app repository for installation and usage details: <https://github.com/ibovegar/nobs-fs-app>
 
 ## Setting the device ID & name (in brief)
 
