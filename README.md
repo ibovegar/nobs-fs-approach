@@ -10,6 +10,15 @@ buttons, for **6 buttons** total.
 
 ![Nobs Approach](images/nobs_approach.png)
 
+## Mounting
+
+The Nobs panels are designed to mount to a 40x80 T-slot aluminium extrusion rig (e.g. a Track
+Racer TR160), around the central profile assembly that holds the flight yoke or steering wheel:
+**Nobs Panel** mounts to the left of the assembly, **Nobs Approach** to the right, and **Nobs
+Autopilot** on top.
+
+![Rig assembly](images/rig-assembly.PNG)
+
 ## Docs
 
 - **[Which wire goes where](docs/arduino-esp-32-wiring.md)**: the button + pin map. For a visual
