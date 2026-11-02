@@ -66,6 +66,7 @@
 #include "USBHID.h"
 #include "USBCDC.h"
 #include <Preferences.h>
+#include "soc/usb_serial_jtag_reg.h"
 
 #if ARDUINO_USB_MODE
 #error "Set Tools > USB Mode to 'Normal mode (TinyUSB)'. Custom HID needs the TinyUSB stack."
@@ -317,16 +318,37 @@ void onUsbEvent(void* arg, esp_event_base_t base, int32_t id, void* eventData) {
 }
 
 // Blink while booting/waiting for USB enumeration; steady once enumerated
-// (hostConnected, set from the USB started/stopped events above). Non-blocking so it
-// never stalls loop().
+// (hostConnected, set from the USB started/stopped events above). If a host never
+// shows up (unit powered from a data-less USB port/charger, or no PC attached), give
+// up blinking after STATUS_LED_TIMEOUT_MS and go dark rather than blink forever — the
+// wait window restarts if the host later disconnects. Non-blocking so it never stalls
+// loop().
+const uint32_t STATUS_LED_TIMEOUT_MS = 10000;
+
 void updateStatusLed() {
+  static bool     wasConnected = false;
+  static uint32_t waitStart    = 0;
+  static uint32_t lastToggle   = 0;
+  static bool     ledOn        = false;
+  uint32_t now = millis();
+
   if (hostConnected) {
     digitalWrite(STATUS_LED_PIN, HIGH);
+    wasConnected = true;
     return;
   }
-  static uint32_t lastToggle = 0;
-  static bool     ledOn      = false;
-  uint32_t now = millis();
+
+  if (wasConnected) {
+    // Just dropped from connected to disconnected — restart the blink window.
+    wasConnected = false;
+    waitStart = now;
+  }
+
+  if (now - waitStart >= STATUS_LED_TIMEOUT_MS) {
+    digitalWrite(STATUS_LED_PIN, LOW); // gave up waiting; stay dark until enumerated
+    return;
+  }
+
   if (now - lastToggle >= 150) {
     lastToggle = now;
     ledOn = !ledOn;
@@ -380,6 +402,27 @@ void handleSerialConfig() {
   }
 }
 
+// ── Clean USB hand-over on a cold plug-in ─────────────────────────────────────
+// At power-up the ESP32-S3 first appears on the bus as its built-in "USB JTAG/serial
+// debug unit" (303A:1001). USB.begin() then hands the USB pins to TinyUSB, but if the
+// host never sees the old device drop off the bus it keeps the stale 303A:1001 entry
+// and never enumerates ours — the board then only works after a re-flash (which
+// restarts straight into TinyUSB). Dropping the D+ pull-up for a moment makes the host
+// register a real disconnect first, so it enumerates the Nobs device afresh.
+const uint32_t USB_DETACH_MS = 250;
+
+void detachBuiltinUsb() {
+  SET_PERI_REG_MASK(USB_SERIAL_JTAG_CONF0_REG, USB_SERIAL_JTAG_PAD_PULL_OVERRIDE);
+  CLEAR_PERI_REG_MASK(USB_SERIAL_JTAG_CONF0_REG, USB_SERIAL_JTAG_DP_PULLUP);
+  delay(USB_DETACH_MS);
+}
+
+// Hand pull-up control back (register defaults) once TinyUSB owns the pins.
+void releaseBuiltinUsbPulls() {
+  SET_PERI_REG_MASK(USB_SERIAL_JTAG_CONF0_REG, USB_SERIAL_JTAG_DP_PULLUP);
+  CLEAR_PERI_REG_MASK(USB_SERIAL_JTAG_CONF0_REG, USB_SERIAL_JTAG_PAD_PULL_OVERRIDE);
+}
+
 void setup() {
   for (uint8_t i = 0; i < 6; i++) {
     pinMode(leverPin[i], INPUT_PULLUP);
@@ -402,12 +445,14 @@ void setup() {
   USBSerial.onEvent(ARDUINO_USB_CDC_LINE_STATE_EVENT, onCdcEvent); // detect host connect
   USB.onEvent(onUsbEvent); // detect USB enumeration, for the status LED
   USBSerial.begin(115200); // USB CDC config port; do NOT wait on it (would stall)
+  detachBuiltinUsb();      // make the host drop the boot-time 303A:1001 device first
   USB.begin();             // build + start the composite USB device (HID + CDC)
+  releaseBuiltinUsbPulls();
 }
 
 void loop() {
   handleSerialConfig(); // apply any pending SET_ID/GET_ID command
-  updateStatusLed();    // blink while waiting for USB enumeration, steady once enumerated
+  updateStatusLed();    // blink while waiting for USB enumeration (times out to dark), steady once enumerated
 
   // Push our identity the moment a host opens the CDC port, so the nobs-fs app learns
   // which box it's talking to without sending GET_ID first.
